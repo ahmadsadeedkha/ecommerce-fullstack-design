@@ -1,17 +1,84 @@
 import React from "react";
 import Newsletter from "../components/Newsletter";
+import CategoryBar from "../components/CategoryBar";
+import HeroSection from "../components/HeroSection";
+import PromoSection from "../components/PromoSection";
+import DealShowcase from "../components/DealShowcase";
+import heroImg from "../assets/images/hero-placeholder.png";
 
 const Home = () => {
+  const promoSections = [
+    {
+      title: "Home and outdoor",
+      subtitle: "Best deals on furniture and home items",
+      accent: "bg-amber-50",
+      items: [
+        { name: "Soft chairs", price: 19 },
+        { name: "Sofa & chair", price: 19 },
+        { name: "Kitchen dishes", price: 19 },
+        { name: "Smart watches", price: 19 },
+        { name: "Kitchen mixer", price: 100 },
+        { name: "Blenders", price: 39 },
+        { name: "Home appliance", price: 19 },
+        { name: "Coffee maker", price: 10 },
+      ],
+    },
+    {
+      title: "Consumer electronics and gadgets",
+      subtitle: "Popular items for everyday use",
+      accent: "bg-blue-50",
+      items: [
+        { name: "Smart watches", price: 19 },
+        { name: "Cameras", price: 89 },
+        { name: "Headphones", price: 10 },
+        { name: "Smart watches", price: 90 },
+        { name: "Gaming set", price: 35 },
+        { name: "Laptops & PC", price: 340 },
+        { name: "Smartphones", price: 19 },
+        { name: "Electric kettle", price: 240 },
+      ],
+    },
+  ];
+
+  const dealsSection = {
+    title: "Deals and offers",
+    subtitle: "Hygiene equipments",
+    timer: [
+      { value: "04", label: "Days" },
+      { value: "13", label: "Hour" },
+      { value: "34", label: "Min" },
+      { value: "56", label: "Sec" },
+    ],
+    items: [
+      { name: "Smart watches", image: heroImg, discount: "-25%" },
+      { name: "Laptops", image: heroImg, discount: "-15%" },
+      { name: "GoPro cameras", image: heroImg, discount: "-40%" },
+      { name: "Headphones", image: heroImg, discount: "-25%" },
+      { name: "Canon cameras", image: heroImg, discount: "-25%" },
+    ],
+  };
+
   return (
     <>
-      <main className="max-w-7xl mx-auto p-6">
-        <section className="py-12">
-          <h1 className="text-3xl font-bold mb-4">Welcome to Sadeed</h1>
-          <p className="text-gray-600">
-            This is the home page. Add your content here.
-          </p>
-        </section>
-      </main>
+      <CategoryBar />
+      <HeroSection />
+      <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+        <DealShowcase
+          title={dealsSection.title}
+          subtitle={dealsSection.subtitle}
+          timer={dealsSection.timer}
+          items={dealsSection.items}
+        />
+        {promoSections.map((section) => (
+          <PromoSection
+            key={section.title}
+            title={section.title}
+            subtitle={section.subtitle}
+            accent={section.accent}
+            items={section.items}
+          />
+        ))}
+      </div>
       <Newsletter />
     </>
   );
