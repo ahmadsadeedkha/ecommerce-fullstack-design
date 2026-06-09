@@ -4,22 +4,26 @@ const PromoSection = ({
   title,
   subtitle,
   accent = "bg-blue-50",
+  image,
   items = [],
 }) => {
   return (
     <section className="border border-gray-200 rounded-md overflow-hidden bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-[1.25fr_4.75fr]">
         <div
-          className={`p-2 lg:p-3 lg:border-r border-gray-200 min-h-[130px] flex flex-col ${accent}`}
+          className={`relative p-2 lg:p-3 lg:border-r border-gray-200 min-h-[130px] flex flex-col bg-cover bg-center`}
+          style={image ? { backgroundImage: `url(${image})` } : undefined}
         >
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 leading-tight max-w-[12rem]">
+          
+
+          <div className="relative">
+            <h3 className="text-xl font-semibold text-black leading-tight max-w-[12rem]">
               {title}
             </h3>
             <p className="text-gray-500 mt-1 text-sm">{subtitle}</p>
           </div>
 
-          <button className="mt-2 w-fit px-4 py-2 bg-white rounded-md shadow-sm text-gray-800 font-medium">
+          <button className="relative mt-2 w-fit px-4 py-2 bg-white rounded-md shadow-sm text-gray-800 font-medium">
             Source now
           </button>
         </div>

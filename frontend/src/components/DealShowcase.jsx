@@ -6,7 +6,7 @@ const DealShowcase = ({ title, subtitle, timer = [], items = [] }) => {
       <div className="grid grid-cols-1 lg:grid-cols-6">
         <div className="p-6 lg:col-span-2 lg:border-r border-gray-200 flex flex-col justify-between min-h-[210px] bg-white">
           
-            <h3 className="text-2xl font-semibold text-gray-900 leading-tight max-w-[12rem]">
+            <h3 className="text-xl font-semibold text-black leading-tight max-w-[12rem]">
               {title}
             </h3>
             <p className="text-gray-500 mt-1 text-sm">{subtitle}</p>
