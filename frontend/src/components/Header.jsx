@@ -40,7 +40,10 @@ const Header = () => {
             <img src={profileLogo} alt="Profile" className="w-5 h-5" />
             <span>Profile</span>
           </a>
-          <a className="hidden sm:flex flex-col items-center gap-1" href="#">
+          <a
+            className="hidden sm:flex flex-col items-center gap-1"
+            href="/products"
+          >
             <img src={messageLogo} alt="Message" className="w-5 h-5" />
             <span>Message</span>
           </a>
