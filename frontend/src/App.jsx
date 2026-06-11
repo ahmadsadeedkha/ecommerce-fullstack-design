@@ -1,19 +1,24 @@
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import CategoryBar from "./components/CategoryBar";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import ProductListingPage from "./pages/ProductListingPage";
-import Footer from "./components/Footer";
+import ProductDetailPage from "./pages/ProductDetailPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
-  const isProductsPage = window.location.pathname.startsWith("/products");
-
   return (
-    <>
+    <BrowserRouter>
       <Header />
-      {isProductsPage ? <ProductListingPage /> : <Home />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<ProductListingPage />} />
+        <Route path="/product/:id" element={<ProductDetailPage />} />
+        <Route path="/cart" element={<CartPage />} />
+      </Routes>
       <Footer />
-    </>
+    </BrowserRouter>
   );
 }
 

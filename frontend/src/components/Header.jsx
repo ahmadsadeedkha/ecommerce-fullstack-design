@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import logo from "../assets/icons/logo.svg";
 import profileLogo from "../assets/icons/profile-logo.svg";
 import messageLogo from "../assets/icons/message-logo.svg";
@@ -36,25 +37,32 @@ const Header = () => {
         </form>
 
         <nav className="ml-auto flex items-center gap-4 text-sm text-gray-600">
-          <a className="hidden sm:flex flex-col items-center gap-1" href="#">
+          <Link
+            className="hidden sm:flex flex-col items-center gap-1"
+            href="#"
+            to="/profile"
+          >
             <img src={profileLogo} alt="Profile" className="w-5 h-5" />
             <span>Profile</span>
-          </a>
-          <a
+          </Link>
+          <Link
             className="hidden sm:flex flex-col items-center gap-1"
-            href="/products"
+            to="/products"
           >
             <img src={messageLogo} alt="Message" className="w-5 h-5" />
-            <span>Message</span>
-          </a>
-          <a className="hidden sm:flex flex-col items-center gap-1" href="#">
+            <span>Products</span>
+          </Link>
+          <Link
+            className="hidden sm:flex flex-col items-center gap-1"
+            to="/orders"
+          >
             <img src={ordersLogo} alt="Orders" className="w-5 h-5" />
             <span>Orders</span>
-          </a>
-          <a className="flex flex-col items-center gap-1" href="#">
+          </Link>
+          <Link className="flex flex-col items-center gap-1" to="/cart">
             <img src={cartLogo} alt="My cart" className="w-5 h-5" />
             <span>My cart</span>
-          </a>
+          </Link>
         </nav>
       </div>
     </header>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CategoryBar from "../components/CategoryBar";
 import Sidebar from "../components/Sidebar";
 import { ProductCardList, ProductCardGrid } from "../components/ProductCard";
 import {
@@ -8,7 +9,7 @@ import {
 } from "../components/ProductControls";
 import { PRODUCTS } from "../assets/data";
 
-export default function ProductListingPage() {
+const ProductListingPage = () => {
   // ── Filter state ──────────────────────────────────────────────────────────
   const [selectedBrands, setSelectedBrands] = useState([
     "Samsung",
@@ -52,6 +53,7 @@ export default function ProductListingPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <CategoryBar />
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 pt-4 pb-2">
         <nav className="text-xs text-gray-400 flex items-center gap-1">
@@ -130,4 +132,5 @@ export default function ProductListingPage() {
       </div>
     </div>
   );
-}
+};
+export default ProductListingPage;

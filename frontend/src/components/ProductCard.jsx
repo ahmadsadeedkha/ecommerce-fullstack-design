@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // ─── Shared Star Rating ───────────────────────────────────────────────────────
 function StarRating({ rating, max = 10 }) {
@@ -23,9 +24,16 @@ function StarRating({ rating, max = 10 }) {
 // ─── Wishlist Heart Button ────────────────────────────────────────────────────
 function WishlistButton({ className = "" }) {
   const [liked, setLiked] = useState(false);
+
+  // Stop the click from bubbling up to the card's navigate handler
+  const handleClick = (e) => {
+    e.stopPropagation();
+    setLiked(!liked);
+  };
+
   return (
     <button
-      onClick={() => setLiked(!liked)}
+      onClick={handleClick}
       className={`p-1.5 rounded-full hover:bg-red-50 transition-colors ${className}`}
     >
       <Heart
@@ -37,8 +45,13 @@ function WishlistButton({ className = "" }) {
 
 // ─── List View Card ───────────────────────────────────────────────────────────
 export function ProductCardList({ product }) {
+  const navigate = useNavigate();
+
   return (
-    <div className="flex gap-4 p-4 bg-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
+    <div
+      onClick={() => navigate(`/product/${product.id}`)}
+      className="flex gap-4 p-4 bg-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
+    >
       <div className="flex-shrink-0 w-36 h-36 rounded-md overflow-hidden bg-gray-50 flex items-center justify-center">
         <img
           src={product.image}
@@ -62,7 +75,9 @@ export function ProductCardList({ product }) {
         <div className="flex items-center gap-2 mb-2">
           <StarRating rating={product.rating} />
           <span className="text-xs text-gray-400">{product.rating}</span>
-          <span className="text-xs text-gray-400">• {product.orders} orders</span>
+          <span className="text-xs text-gray-400">
+            • {product.orders} orders
+          </span>
           <span className="text-xs text-emerald-500 font-medium">
             • {product.shipping}
           </span>
@@ -70,7 +85,13 @@ export function ProductCardList({ product }) {
         <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
           {product.description}
         </p>
-        <button className="mt-3 text-xs text-blue-500 hover:text-blue-700 font-medium">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/product/${product.id}`);
+          }}
+          className="mt-3 text-xs text-blue-500 hover:text-blue-700 font-medium"
+        >
           View details
         </button>
       </div>
@@ -82,8 +103,13 @@ export function ProductCardList({ product }) {
 
 // ─── Grid View Card ───────────────────────────────────────────────────────────
 export function ProductCardGrid({ product }) {
+  const navigate = useNavigate();
+
   return (
-    <div className="bg-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow overflow-hidden">
+    <div
+      onClick={() => navigate(`/product/${product.id}`)}
+      className="bg-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow overflow-hidden cursor-pointer"
+    >
       <div className="relative bg-gray-50 h-44 flex items-center justify-center p-4">
         <img
           src={product.image}
