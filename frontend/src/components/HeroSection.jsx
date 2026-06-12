@@ -3,11 +3,10 @@ import heroImg from "../assets/images/hero-placeholder.png";
 
 const HeroSection = () => {
   return (
-    <section className="max-w-7xl mx-auto px-4 py-8">
+    <section className="max-w-7xl mx-auto p-0 lg:p-4">
       <div className="bg-white overflow-hidden">
         <div className="grid grid-cols-12 gap-6 items-stretch">
-          
-          <aside className="col-span-12 lg:col-span-3 p-4">
+          <aside className="hidden lg:block col-span-12 lg:col-span-3 p-4">
             <ul className="space-y-2 text-sm">
               <li className="bg-blue-50 text-blue-700 rounded-md px-3 py-2 font-medium">
                 Automobiles
@@ -41,8 +40,8 @@ const HeroSection = () => {
               </div>
             </div>
           </div>
-         
-          <aside className="col-span-12 lg:col-span-2 p-4 space-y-4">
+
+          <aside className="hidden lg:block col-span-12 lg:col-span-2 p-4 space-y-4">
             <div className="bg-blue-50 p-4 rounded-md">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white rounded-full" />

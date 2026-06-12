@@ -11,7 +11,7 @@ import youtubeLogo from "../assets/icons/youtube-logo.svg";
 const Footer = () => {
   return (
     <footer className=" max-w-7xl mx-auto ">
-      <div className="bg-white grid grid-cols-1 md:grid-cols-6 gap-8 px-20 py-12">
+      <div className="bg-white grid grid-cols-1 md:grid-cols-6 gap-8 p-4">
         <div className="md:col-span-2">
           <div className="flex items-start gap-3">
             <img src={logo} alt="Brand logo" className="w-10 h-10" />
@@ -185,7 +185,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="mt-8 bg-gray-200 flex items-center justify-between border-t border-gray-200 px-20 py-4">
+      <div className="mt-8 bg-gray-200 flex items-center justify-between border-t border-gray-200 p-4">
         <span className="text-md text-gray-600">© 2026 Sadeed.</span>
 
         <span className="text-md text-gray-600">English</span>

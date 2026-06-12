@@ -3,9 +3,9 @@ import supplierQuoteBg from "../assets/images/supplier-quote-bg.png";
 
 const SupplierQuoteSection = () => {
   return (
-    <section className="max-w-7xl mx-auto px-4 py-4">
+    <section className="max-w-7xl mx-auto p-0 lg:p-4">
       <div
-        className="relative overflow-hidden rounded-lg"
+        className="relative overflow-hidden lg:rounded-lg "
         style={{
           backgroundImage: `url(${supplierQuoteBg})`,
           backgroundSize: "cover",
@@ -23,9 +23,15 @@ const SupplierQuoteSection = () => {
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               eiusmod tempor incididunt.
             </p>
+            <button
+              type="button"
+              className="lg:hidden mt-6 rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-blue-600 shadow transition hover:bg-gray-100"
+            >
+              Send inquiry
+            </button>
           </div>
 
-          <div className="rounded-xl bg-white p-6 text-gray-900 shadow-lg md:p-8">
+          <div className="hidden lg:block rounded-xl bg-white p-6 text-gray-900 shadow-lg md:p-8">
             <h3 className="text-lg font-semibold">Send quote to suppliers</h3>
 
             <form className="mt-4 space-y-3">

@@ -50,7 +50,7 @@ const Home = () => {
 
   const dealsSection = {
     title: "Deals and offers",
-    subtitle: "Hygiene equipments",
+    subtitle: "Electronic equipments",
     timer: [
       { value: "04", label: "Days" },
       { value: "13", label: "Hour" },
