@@ -10,7 +10,6 @@ import {
 import { PRODUCTS } from "../assets/data";
 
 const ProductListingPage = () => {
-  // ── Filter state ──────────────────────────────────────────────────────────
   const [selectedBrands, setSelectedBrands] = useState([
     "Samsung",
     "Apple",
@@ -19,20 +18,17 @@ const ProductListingPage = () => {
   const [selectedFeatures, setSelectedFeatures] = useState(["Metallic"]);
   const [selectedRatings, setSelectedRatings] = useState(["4star", "3star"]);
   const [condition, setCondition] = useState("Any");
-
-  // ── UI state ──────────────────────────────────────────────────────────────
   const [view, setView] = useState("list");
   const [verifiedOnly, setVerifiedOnly] = useState(true);
   const [sortBy, setSortBy] = useState("Featured");
   const [currentPage, setCurrentPage] = useState(1);
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
-  // ── Toggle helpers ────────────────────────────────────────────────────────
   const toggle = (setter) => (value) =>
     setter((prev) =>
       prev.includes(value) ? prev.filter((x) => x !== value) : [...prev, value],
     );
 
-  // ── Active filter tags (for the chips row) ────────────────────────────────
   const activeFilters = [
     ...selectedBrands,
     ...selectedFeatures,
@@ -54,8 +50,9 @@ const ProductListingPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <CategoryBar />
-      {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-4 pt-4 pb-2">
+
+      {/* Breadcrumb — desktop only */}
+      <div className="hidden md:block max-w-7xl mx-auto px-4 pt-4 pb-2">
         <nav className="text-xs text-gray-400 flex items-center gap-1">
           {["Home", "Clothings", "Men's wear", "Summer clothing"].map(
             (crumb, i, arr) => (
@@ -77,17 +74,19 @@ const ProductListingPage = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 pb-10 flex gap-6">
-        {/* Sidebar */}
-        <Sidebar
-          selectedBrands={selectedBrands}
-          onToggleBrand={toggle(setSelectedBrands)}
-          selectedFeatures={selectedFeatures}
-          onToggleFeature={toggle(setSelectedFeatures)}
-          selectedRatings={selectedRatings}
-          onToggleRating={toggle(setSelectedRatings)}
-          condition={condition}
-          onConditionChange={setCondition}
-        />
+        {/* Sidebar — desktop only */}
+        <div className="hidden md:block">
+          <Sidebar
+            selectedBrands={selectedBrands}
+            onToggleBrand={toggle(setSelectedBrands)}
+            selectedFeatures={selectedFeatures}
+            onToggleFeature={toggle(setSelectedFeatures)}
+            selectedRatings={selectedRatings}
+            onToggleRating={toggle(setSelectedRatings)}
+            condition={condition}
+            onConditionChange={setCondition}
+          />
+        </div>
 
         {/* Main */}
         <main className="flex-1 min-w-0">
@@ -100,6 +99,8 @@ const ProductListingPage = () => {
             onVerifiedChange={() => setVerifiedOnly(!verifiedOnly)}
             sortBy={sortBy}
             onSortChange={setSortBy}
+            activeFilterCount={activeFilters.length}
+            onMobileFilterOpen={() => setMobileFilterOpen(true)}
           />
 
           <ActiveFilters
@@ -116,7 +117,7 @@ const ProductListingPage = () => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
               {PRODUCTS.map((p) => (
                 <ProductCardGrid key={p.id} product={p} />
               ))}
@@ -130,7 +131,51 @@ const ProductListingPage = () => {
           />
         </main>
       </div>
+
+      {/* Mobile filter drawer */}
+      {mobileFilterOpen && (
+        <div className="fixed inset-0 z-50 flex md:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setMobileFilterOpen(false)}
+          />
+          {/* Drawer */}
+          <div className="relative ml-auto w-4/5 max-w-sm bg-white h-full overflow-y-auto shadow-xl">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+              <span className="font-semibold text-gray-800">Filters</span>
+              <button
+                onClick={() => setMobileFilterOpen(false)}
+                className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="px-4">
+              <Sidebar
+                selectedBrands={selectedBrands}
+                onToggleBrand={toggle(setSelectedBrands)}
+                selectedFeatures={selectedFeatures}
+                onToggleFeature={toggle(setSelectedFeatures)}
+                selectedRatings={selectedRatings}
+                onToggleRating={toggle(setSelectedRatings)}
+                condition={condition}
+                onConditionChange={setCondition}
+              />
+            </div>
+            <div className="sticky bottom-0 bg-white border-t border-gray-100 px-4 py-3">
+              <button
+                onClick={() => setMobileFilterOpen(false)}
+                className="w-full py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded-lg transition-colors"
+              >
+                Apply filters
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
 export default ProductListingPage;
