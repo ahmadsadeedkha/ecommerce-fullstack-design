@@ -34,31 +34,35 @@ const ProductTabs = ({ product }) => {
           </p>
 
           {/* Specs table */}
-          <table className="w-full text-sm border-collapse">
-            <tbody>
-              {product.specs.map((spec) => (
-                <tr key={spec.label} className="border border-gray-200">
-                  <td className="py-2 px-4 bg-gray-50 text-gray-500 font-medium w-32">
-                    {spec.label}
-                  </td>
-                  <td className="py-2 px-4 text-gray-700">{spec.value}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {product.specs && product.specs.length > 0 && (
+            <table className="w-full text-sm border-collapse">
+              <tbody>
+                {product.specs.map((spec) => (
+                  <tr key={spec.label} className="border border-gray-200">
+                    <td className="py-2 px-4 bg-gray-50 text-gray-500 font-medium w-32">
+                      {spec.label}
+                    </td>
+                    <td className="py-2 px-4 text-gray-700">{spec.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
 
           {/* Features */}
-          <ul className="flex flex-col gap-2 mt-1">
-            {product.features.map((feat, i) => (
-              <li
-                key={i}
-                className="flex items-start gap-2 text-sm text-gray-600"
-              >
-                <Check className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
-                {feat}
-              </li>
-            ))}
-          </ul>
+          {product.features && product.features.length > 0 && (
+            <ul className="flex flex-col gap-2 mt-1">
+              {product.features.map((feat, i) => (
+                <li
+                  key={i}
+                  className="flex items-start gap-2 text-sm text-gray-600"
+                >
+                  <Check className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
+                  {feat}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
 

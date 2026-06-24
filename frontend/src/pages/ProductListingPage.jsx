@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import CategoryBar from "../components/CategoryBar";
 import Sidebar from "../components/Sidebar";
 import { ProductCardList, ProductCardGrid } from "../components/ProductCard";
@@ -7,9 +8,33 @@ import {
   ActiveFilters,
   Pagination,
 } from "../components/ProductControls";
-import { PRODUCTS } from "../assets/data";
 
 const ProductListingPage = () => {
+  const { search } = useLocation();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    const params = new URLSearchParams(search);
+    const searchTerm = params.get("search") || "";
+
+    fetch(
+      `http://localhost:5000/api/products?search=${encodeURIComponent(searchTerm)}`,
+      { cache: "no-store" },
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Fetched products:", data); // temporary debug line
+        setProducts(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err);
+        setLoading(false);
+      });
+  }, [search]);
+
   const [selectedBrands, setSelectedBrands] = useState([
     "Samsung",
     "Apple",
@@ -110,16 +135,21 @@ const ProductListingPage = () => {
           />
 
           {/* Product list or grid */}
-          {view === "list" ? (
+
+          {loading ? (
+            <p className="text-center text-gray-400 py-10">
+              Loading products...
+            </p>
+          ) : view === "list" ? (
             <div className="flex flex-col gap-3">
-              {PRODUCTS.slice(0, 6).map((p) => (
-                <ProductCardList key={p.id} product={p} />
+              {products.slice(0, 6).map((p) => (
+                <ProductCardList key={p._id} product={p} />
               ))}
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-              {PRODUCTS.map((p) => (
-                <ProductCardGrid key={p.id} product={p} />
+              {products.map((p) => (
+                <ProductCardGrid key={p._id} product={p} />
               ))}
             </div>
           )}

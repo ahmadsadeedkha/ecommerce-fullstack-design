@@ -57,14 +57,14 @@ const Header = () => {
           </Link>
           <Link
             className="hidden lg:flex flex-col items-center gap-1 hover:text-blue-500 transition-colors"
-            to="/orders"
+            to="/"
           >
             <img src={ordersLogo} alt="Orders" className="w-5 h-5" />
             <span>Orders</span>
           </Link>
           <Link
             className="flex flex-col items-center gap-1 hover:text-blue-500 transition-colors"
-            to="/profile"
+            to="/login"
           >
             <img src={profileLogo} alt="Profile" className="w-5 h-5" />
             <span>Profile</span>

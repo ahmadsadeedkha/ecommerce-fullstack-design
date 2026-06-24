@@ -49,7 +49,7 @@ export function ProductCardList({ product }) {
 
   return (
     <div
-      onClick={() => navigate(`/product/${product.id}`)}
+      onClick={() => navigate(`/product/${product._id}`)}
       className="flex gap-4 p-4 bg-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
     >
       <div className="flex-shrink-0 w-36 h-36 rounded-md overflow-hidden bg-gray-50 flex items-center justify-center">
@@ -68,19 +68,27 @@ export function ProductCardList({ product }) {
           <span className="text-lg font-bold text-gray-900">
             ${product.price.toFixed(2)}
           </span>
-          <span className="text-sm text-gray-400 line-through">
-            ${product.originalPrice.toFixed(2)}
-          </span>
+          {product.originalPrice && (
+            <span className="text-sm text-gray-400 line-through">
+              ${product.originalPrice.toFixed(2)}
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-2 mb-2">
-          <StarRating rating={product.rating} />
-          <span className="text-xs text-gray-400">{product.rating}</span>
-          <span className="text-xs text-gray-400">
-            • {product.orders} orders
-          </span>
-          <span className="text-xs text-emerald-500 font-medium">
-            • {product.shipping}
-          </span>
+          {product.rating && <StarRating rating={product.rating} />}
+          {product.rating && (
+            <span className="text-xs text-gray-400">{product.rating}</span>
+          )}
+          {product.orders && (
+            <span className="text-xs text-gray-400">
+              • {product.orders} orders
+            </span>
+          )}
+          {product.shipping && (
+            <span className="text-xs text-emerald-500 font-medium">
+              • {product.shipping}
+            </span>
+          )}
         </div>
         <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
           {product.description}
@@ -88,7 +96,7 @@ export function ProductCardList({ product }) {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            navigate(`/product/${product.id}`);
+            navigate(`/product/${product._id}`);
           }}
           className="mt-3 text-xs text-blue-500 hover:text-blue-700 font-medium"
         >
@@ -107,7 +115,7 @@ export function ProductCardGrid({ product }) {
 
   return (
     <div
-      onClick={() => navigate(`/product/${product.id}`)}
+      onClick={() => navigate(`/product/${product._id}`)}
       className="bg-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow overflow-hidden cursor-pointer"
     >
       <div className="relative bg-gray-50 h-44 flex items-center justify-center p-4">
@@ -124,13 +132,17 @@ export function ProductCardGrid({ product }) {
           <span className="text-base font-bold text-gray-900">
             ${product.price.toFixed(2)}
           </span>
-          <span className="text-xs text-gray-400 line-through">
-            ${product.originalPrice.toFixed(2)}
-          </span>
+          {product.originalPrice && (
+            <span className="text-xs text-gray-400 line-through">
+              ${product.originalPrice.toFixed(2)}
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-1 mb-2">
-          <StarRating rating={product.rating} />
-          <span className="text-xs text-gray-400">{product.rating}</span>
+          {product.rating && <StarRating rating={product.rating} />}
+          {product.rating && (
+            <span className="text-xs text-gray-400">{product.rating}</span>
+          )}
         </div>
         <h3 className="text-xs text-gray-600 leading-snug">{product.name}</h3>
       </div>

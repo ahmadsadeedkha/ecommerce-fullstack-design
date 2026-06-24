@@ -1,12 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const PromoSection = ({
-  title,
-  subtitle,
-  accent = "bg-blue-50",
-  image,
-  items = [],
-}) => {
+const PromoSection = ({ title, subtitle, accent = "bg-blue-50", image, items = [] }) => {
+  const navigate = useNavigate();
+
   return (
     <section className="border border-gray-200 rounded-md overflow-hidden bg-white">
       {/* Title row */}
@@ -20,6 +17,10 @@ const PromoSection = ({
         {items.map((item) => (
           <div
             key={item.name}
+            onClick={() =>
+              navigate(`/products?search=${encodeURIComponent(item.name)}`)
+            }
+            className="... cursor-pointer hover:bg-gray-50 transition-colors"
             className="shrink-0 w-[38vw] sm:w-44 p-3 flex flex-col items-center text-center"
           >
             {item.image ? (
@@ -62,6 +63,10 @@ const PromoSection = ({
           {items.map((item) => (
             <div
               key={item.name}
+              onClick={() =>
+                navigate(`/products?search=${encodeURIComponent(item.name)}`)
+              }
+              className="... cursor-pointer hover:bg-gray-50 transition-colors"
               className="p-2 border-l border-gray-200 min-h-[130px] flex flex-col justify-between"
             >
               <div>

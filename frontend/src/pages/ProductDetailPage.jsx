@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Package, Heart, ChevronLeft, ChevronRight } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
 import CategoryBar from "../components/CategoryBar";
 import ProductGallery from "../components/ProductGallery";
 import SupplierCard from "../components/SupplierCard";
@@ -8,8 +8,8 @@ import ProductTabs from "../components/ProductTabs";
 import YouMayLike from "../components/YouMayLike";
 import RelatedProducts from "../components/RelatedProducts";
 import PromoBanner from "../components/PromoBanner";
+
 import {
-  PRODUCT,
   SUPPLIER,
   RELATED_SUGGESTIONS,
   RELATED_PRODUCTS,
@@ -127,6 +127,24 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
   const [liked, setLiked] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/products/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading)
+    return <p className="text-center py-20 text-gray-400">Loading...</p>;
+  if (!product)
+    return (
+      <p className="text-center py-20 text-gray-400">Product not found.</p>
+    );
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -172,32 +190,34 @@ const ProductDetailPage = () => {
         </div>
 
         {/* Full-width gallery */}
-        <MobileGallery images={PRODUCT.images} />
+        <MobileGallery images={product.image ? [product.image] : []} />
 
         {/* Product info card */}
         <div className="bg-white px-4 pt-4 pb-3 mt-2 mx-3 rounded-xl border border-gray-100">
           {/* Rating row */}
           <div className="flex items-center gap-3 mb-2 text-xs text-gray-500">
-            <StarRating rating={PRODUCT.rating} />
-            <span className="flex items-center gap-1">
-              💬 {PRODUCT.reviews} reviews
-            </span>
-            <span className="flex items-center gap-1">
-              <Package className="w-3 h-3" /> {PRODUCT.sold} sold
-            </span>
+            {product.rating && <StarRating rating={product.rating} />}
+            {product.rating && (
+              <span className="font-medium text-gray-700">
+                {product.rating}
+              </span>
+            )}
+            {product.reviews && <span>💬 {product.reviews} reviews</span>}
+            {product.sold && (
+              <span className="flex items-center gap-1">
+                <Package className="w-3.5 h-3.5" /> {product.sold} sold
+              </span>
+            )}
           </div>
 
           {/* Title */}
           <h1 className="text-base font-bold text-gray-800 leading-snug mb-1">
-            {PRODUCT.name}
+            {product.name}
           </h1>
 
           {/* Price */}
           <p className="text-lg font-bold text-red-500 mb-3">
-            {PRODUCT.pricingTiers[0].price}{" "}
-            <span className="text-xs font-normal text-gray-400">
-              ({PRODUCT.pricingTiers[0].label})
-            </span>
+            ${product.price}
           </p>
 
           {/* CTA row */}
@@ -219,7 +239,7 @@ const ProductDetailPage = () => {
           <div className="flex flex-col gap-1.5 text-sm mb-3">
             {[
               { label: "Condition", value: "Brand new" },
-              { label: "Material", value: PRODUCT.material },
+              { label: "Material", value: product.material },
               { label: "Category", value: "Electronics, gadgets" },
               { label: "Item num", value: "23421" },
             ].map(({ label, value }) => (
@@ -236,7 +256,7 @@ const ProductDetailPage = () => {
           <p
             className={`text-xs text-gray-500 leading-relaxed ${expanded ? "" : "line-clamp-3"}`}
           >
-            {PRODUCT.description}
+            {product.description}
           </p>
           <button
             onClick={() => setExpanded(!expanded)}
@@ -298,8 +318,8 @@ const ProductDetailPage = () => {
           {/* Top section */}
           <div className="bg-white rounded-xl border border-gray-100 p-6 mb-4">
             <div className="flex gap-6">
-              <div className="w-56 flex-shrink-0">
-                <ProductGallery images={PRODUCT.images} />
+              <div className="w-56 shrink-0">
+                <ProductGallery images={product.image ? [product.image] : []} />
               </div>
 
               <div className="flex-1 min-w-0">
@@ -310,35 +330,38 @@ const ProductDetailPage = () => {
                   </span>
                 </div>
                 <h1 className="text-lg font-bold text-gray-800 leading-snug mb-2">
-                  {PRODUCT.name}
+                  {product.name}
                 </h1>
                 <div className="flex items-center gap-3 mb-4 text-xs text-gray-500">
-                  <StarRating rating={PRODUCT.rating} />
+                  <StarRating rating={product.rating} />
                   <span className="font-medium text-gray-700">
-                    {PRODUCT.rating}
+                    {product.rating}
                   </span>
-                  <span>💬 {PRODUCT.reviews} reviews</span>
+                  <span>💬 {product.reviews} reviews</span>
                   <span className="flex items-center gap-1">
-                    <Package className="w-3.5 h-3.5" /> {PRODUCT.sold} sold
+                    <Package className="w-3.5 h-3.5" /> {product.sold} sold
                   </span>
                 </div>
                 <div className="flex gap-3 mb-5">
-                  {PRODUCT.pricingTiers.map((tier, i) => (
-                    <PricingTier key={i} tier={tier} highlighted={i === 1} />
-                  ))}
+                  <div className="flex-1 border rounded-lg px-4 py-3 text-center border-orange-300 bg-orange-50">
+                    <p className="text-base font-bold text-gray-900">
+                      ${product.price}
+                    </p>
+                    <p className="text-xs text-gray-400 mt-0.5">Per item</p>
+                  </div>
                 </div>
                 <table className="mb-2">
                   <tbody>
-                    <InfoRow label="Price" value={PRODUCT.price} />
-                    <InfoRow label="Type" value={PRODUCT.type} />
-                    <InfoRow label="Material" value={PRODUCT.material} />
-                    <InfoRow label="Design" value={PRODUCT.design} />
+                    <InfoRow label="Price" value={product.price} />
+                    <InfoRow label="Type" value={product.type} />
+                    <InfoRow label="Material" value={product.material} />
+                    <InfoRow label="Design" value={product.design} />
                     <InfoRow
                       label="Customization"
-                      value={PRODUCT.customization}
+                      value={product.customization}
                     />
-                    <InfoRow label="Protection" value={PRODUCT.protection} />
-                    <InfoRow label="Warranty" value={PRODUCT.warranty} />
+                    <InfoRow label="Protection" value={product.protection} />
+                    <InfoRow label="Warranty" value={product.warranty} />
                   </tbody>
                 </table>
               </div>
@@ -352,7 +375,7 @@ const ProductDetailPage = () => {
           {/* Tabs + You may like */}
           <div className="flex gap-4">
             <div className="flex-1 bg-white rounded-xl border border-gray-100 p-6">
-              <ProductTabs product={PRODUCT} />
+              <ProductTabs product={product} />
             </div>
             <div className="w-52 flex-shrink-0">
               <YouMayLike items={RELATED_SUGGESTIONS} />

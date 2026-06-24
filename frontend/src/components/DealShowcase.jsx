@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const DealShowcase = ({ title, subtitle, timer = [], items = [] }) => {
+  const navigate = useNavigate();
+
   return (
     <section className="border border-gray-200 rounded-md overflow-hidden bg-white">
       <div className="flex flex-col lg:grid lg:grid-cols-6">
@@ -59,9 +62,13 @@ const DealShowcase = ({ title, subtitle, timer = [], items = [] }) => {
         {/* Mobile: horizontal scroll; Desktop: 5-column grid */}
         <div className="lg:col-span-5 flex overflow-x-auto lg:overflow-visible lg:grid lg:grid-cols-5 divide-x divide-gray-200">
           {items.map((item) => (
+            // inside items.map:
             <div
               key={item.name}
-              className="shrink-0 w-36 lg:w-auto p-4 flex flex-col items-center justify-between text-center border-t lg:border-t-0 min-h-[210px]"
+              onClick={() =>
+                navigate(`/products?search=${encodeURIComponent(item.name)}`)
+              }
+              className="shrink-0 w-36 lg:w-auto p-4 flex flex-col items-center justify-between text-center border-t lg:border-t-0 min-h-[210px] cursor-pointer hover:bg-gray-50 transition-colors"
             >
               <div className="w-full flex items-center justify-center flex-1">
                 {item.image ? (
