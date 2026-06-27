@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const CATEGORIES = [
   "Electronics",
   "Clothing",
@@ -97,11 +99,12 @@ export default function ProductFormModal({ product, onClose, onSaved }) {
 
     try {
       const url = isEditing
-        ? `${import.meta.env.VITE_API_URL}/api/products/${product._id}`
-        : `${import.meta.env.VITE_API_URL}/api/products`;
+        ? `${API}/api/products/${product._id}`
+        : `${API}/api/products`;
+      const method = isEditing ? "PUT" : "POST";
 
       const res = await fetch(url, {
-        method: isEditing ? "PUT" : "POST",
+        method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -130,7 +133,6 @@ export default function ProductFormModal({ product, onClose, onSaved }) {
     }`;
 
   return (
-    /* Backdrop */
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
       onClick={(e) => e.target === e.currentTarget && onClose()}
@@ -144,7 +146,6 @@ export default function ProductFormModal({ product, onClose, onSaved }) {
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition"
-            aria-label="Close"
           >
             ✕
           </button>
@@ -158,7 +159,6 @@ export default function ProductFormModal({ product, onClose, onSaved }) {
             </div>
           )}
 
-          {/* Name */}
           <div>
             <label className="block text-xs font-medium text-gray-600 mb-1">
               Product name
@@ -175,7 +175,6 @@ export default function ProductFormModal({ product, onClose, onSaved }) {
             )}
           </div>
 
-          {/* Price + Original Price */}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">
@@ -211,7 +210,6 @@ export default function ProductFormModal({ product, onClose, onSaved }) {
             </div>
           </div>
 
-          {/* Category + Stock */}
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">
@@ -255,7 +253,6 @@ export default function ProductFormModal({ product, onClose, onSaved }) {
             </div>
           </div>
 
-          {/* Image URL */}
           <div>
             <label className="block text-xs font-medium text-gray-600 mb-1">
               Image URL
@@ -280,7 +277,6 @@ export default function ProductFormModal({ product, onClose, onSaved }) {
             )}
           </div>
 
-          {/* Description */}
           <div>
             <label className="block text-xs font-medium text-gray-600 mb-1">
               Description{" "}
